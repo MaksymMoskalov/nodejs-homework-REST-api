@@ -9,7 +9,7 @@ const contactsAll = async (req, res) => {
 
 const contactById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await getContactById(contactId);
+  const result = await Book.findById(contactId);
 
   if (!result) {
     throw HttpError(404, "Not found");
@@ -19,13 +19,13 @@ const contactById = async (req, res) => {
 };
 
 const contactAdd = async (req, res) => {
-  const result = await addContact(req.body);
+  const result = await Book.create(req.body);
   res.status(201).json(result);
 };
 
 const contactDelete = async (req, res) => {
   const { contactId } = req.params;
-  const result = await removeContact(contactId);
+  const result = await Book.findByIdAndRemove(contactId);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -34,7 +34,21 @@ const contactDelete = async (req, res) => {
 
 const contactEdit = async (req, res) => {
   const { contactId } = req.params;
-  const result = await updateContact(contactId, req.body);
+  const result = await Book.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
+  console.log("result: ", result);
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(result);
+};
+
+const updateFavorite = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await Book.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
   console.log("result: ", result);
   if (!result) {
     throw HttpError(404, "Not found");
@@ -48,4 +62,5 @@ module.exports = {
   contactAdd: ctrlWrapper(contactAdd),
   contactDelete: ctrlWrapper(contactDelete),
   contactEdit: ctrlWrapper(contactEdit),
+  updateFavorite: ctrlWrapper(updateFavorite),
 };

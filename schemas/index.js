@@ -1,5 +1,6 @@
-const validationSheme = require("./shemas");
+const { validationSheme, updateFavoriteSchema } = require("./shemas");
 
 module.exports = {
   validationSheme,
+  updateFavoriteSchema,
 };

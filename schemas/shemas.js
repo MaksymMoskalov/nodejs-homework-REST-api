@@ -6,6 +6,14 @@ const validationSheme = Joi.object({
   phone: Joi.string()
     .pattern(/^\+380\d{9}$/)
     .required(),
+  favorite: Joi.boolean(),
 });
 
-module.exports = validationSheme;
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
+module.exports = {
+  validationSheme,
+  updateFavoriteSchema,
+};
