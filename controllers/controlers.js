@@ -3,7 +3,10 @@ const Book = require("../models/contact");
 const { HttpError, ctrlWrapper } = require("../service");
 
 const contactsAll = async (req, res) => {
-  const result = await Book.find();
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await Book.find({ owner }, "", { skip, limit });
   res.json(result);
 };
 
@@ -19,7 +22,8 @@ const contactById = async (req, res) => {
 };
 
 const contactAdd = async (req, res) => {
-  const result = await Book.create(req.body);
+  const { _id: owner } = req.user;
+  const result = await Book.create({ ...req.body, owner });
   res.status(201).json(result);
 };
 
