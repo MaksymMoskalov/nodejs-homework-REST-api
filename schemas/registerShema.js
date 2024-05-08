@@ -7,6 +7,13 @@ const registerShema = Joi.object({
     .required(),
 });
 
+const emailShema = Joi.object({
+  email: Joi.string()
+    .pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)
+    .required(),
+});
+
 module.exports = {
   registerShema,
+  emailShema,
 };
